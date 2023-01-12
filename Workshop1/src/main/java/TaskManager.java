@@ -1,19 +1,56 @@
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class TaskManager {
     static final String FILE_NAME = "tasks.csv";
     static final String[] OPTIONS = {"add", "remove", "list", "exit"};
+    static String [][] temp;
 
     public static void main(String[] args)  {
-        String[][] tab = readFile(FILE_NAME);
+        temp = readFile(FILE_NAME);
 
-        menuList(OPTIONS);
 
+
+        while (true) {
+            System.out.print(ConsoleColors.BLUE);
+            System.out.println("Please select an option:");
+            System.out.print(ConsoleColors.RESET);
+            for (String option :
+                    OPTIONS) {
+                System.out.println(option);
+            }
+            Scanner scanner = new Scanner(System.in);
+            String str = scanner.next();
+            switch (str){
+                case "add":
+                    System.out.println("add");
+                    break;
+                case "list":
+                    list(temp);
+                    break;
+                case "remove":
+                    removeTask(temp);
+                    System.out.println(Arrays.toString(temp));
+                    break;
+                case "exit":
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Źle");
+
+
+
+
+            }
+
+        }
     }
     public static String[][] readFile (String FILE_NAME){
         Path path1 = Paths.get(FILE_NAME);  //Tworzymy ścieżkę Path
@@ -35,33 +72,43 @@ public class TaskManager {
         }return tab;
     }
 
-    public static void menuList (String[] tab){
-       System.out.println(ConsoleColors.BLUE);
-        System.out.println("Please select an option:");
-        System.out.println(ConsoleColors.RESET);
-        Scanner scanner = new Scanner(System.in);
+    public static void list (String[][] tab){
+        for (int i = 0; i < tab.length; i++) {
+            System.out.print( (i+1) + ": ");
+            for (int j = 0; j < tab[i].length; j++) {
+                System.out.print(tab[i][j] + " ");
 
-        while (true) {
-            String str = scanner.next();
-            if (str.equalsIgnoreCase(OPTIONS[0])) {
-                System.out.println("wybrałeś add");
-                break;
             }
-            if (str.equalsIgnoreCase(OPTIONS[1])) {
-                System.out.println("wybrałeś remove");
-                break;
-            }
-            if (str.equalsIgnoreCase(OPTIONS[2])) {
-                System.out.println("wybrałeś list");
-                break;
-            }if (str.equalsIgnoreCase(OPTIONS[3])) {
-                System.out.println("wybrałeś exit");
-                break;
-            } else {
-                System.out.println("źle wybrałeś");
-            }
+            System.out.println();
 
         }
     }
-    public static class addTask{}
+
+    public static void removeTask(String[][] tab){
+        System.out.println("Enter Task number to remove");
+        Scanner scan = new Scanner(System.in);
+
+        int parse ;
+        while (true){String row = scan.next();
+        try {
+            parse = Integer.parseInt(row);
+            if (parse > tab.length) {
+                System.out.println("Enter value between 0 and " + tab.length);
+
+            } else {
+                System.out.println("Selected " + parse + "to delete");
+                break;
+            }
+        }catch (NumberFormatException e) {
+            System.out.println("Enter number between 0 and " + tab.length);
+
+        }
+
+        }
+        parse = parse-1;
+        temp = ArrayUtils.remove(tab, parse);
+    }
+
+
+
 }
