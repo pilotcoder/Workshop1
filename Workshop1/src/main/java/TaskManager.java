@@ -13,7 +13,6 @@ public class TaskManager {
     public static void main(String[] args) {
         temp = readFile(FILE_NAME);
 
-
         while (true) {
             System.out.print(ConsoleColors.BLUE);
             System.out.println("Please select an option:");
@@ -34,6 +33,7 @@ public class TaskManager {
             }
         }
     }
+
     public static String[][] readFile(String file) {
         Path path1 = Paths.get(file);
         String[][] tab = null;
@@ -78,26 +78,29 @@ public class TaskManager {
         temp = tab;
     }
 
-
     public static void removeTask(String[][] tab) {
+        int parse ;
         System.out.println("Enter Task number to remove or enter BACK to return to menu.");
         Scanner scan = new Scanner(System.in);
-        int parse = 0;
 
         while (true) {
             String row = scan.next();
-            if (row.equalsIgnoreCase("exit")) {
+            if (row.equalsIgnoreCase("back")) {
                 break;
-            } else {
+            } else  {
                 try {
                     parse = Integer.parseInt(row);
-                    if (parse > tab.length) {
-                        System.out.println("Enter value between 1 and " + tab.length);
-
+                    if (tab.length == 0 ){
+                        System.out.println("There is no any tasks to delete.");
+                        break;
                     } else if (parse <= 0) {
                         System.out.println("Enter value between 1 and " + tab.length);
-                    } else {
+                    } else if (parse > tab.length) {
+                        System.out.println("Enter value between 1 and " + tab.length);
+                    } else{
                         System.out.println("Task: " + parse + " DELETED");
+                        parse = parse - 1; // wyświetla listę Task od 1 a nie 0 wiec to co wprowadził użytkownik pomiejsza o 1 aby był to właściwy index
+                        temp = ArrayUtils.remove(tab, parse);
                         break;
                     }
                 } catch (NumberFormatException e) {
@@ -105,8 +108,7 @@ public class TaskManager {
                 }
             }
         }
-        parse = parse - 1; // wyświetla listę Task od 1 a nie 0 wiec to co wprowadził użytkownik pomiejsza o 1 aby był to właściwy index
-        temp = ArrayUtils.remove(tab, parse);
+
     }
 
     public static void list(String[][] tab) {
@@ -118,6 +120,7 @@ public class TaskManager {
             System.out.println();
         }
     }
+
     public static void exitProgram() {
         Path path1 = Paths.get(FILE_NAME);
         String[] joined = new String[temp.length];
