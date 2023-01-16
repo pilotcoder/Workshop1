@@ -53,7 +53,6 @@ public class TaskManager {
     }
 
     public static void addTask(String[][] tab) {
-
         String[] tempTask = new String[temp[0].length];
         String[] commands = {"Enter task description:", "Enter due date (YYYY-MM-DD)", "Is your task impotrtant? true/false"};
         Scanner scan = new Scanner(System.in);
