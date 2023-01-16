@@ -47,14 +47,14 @@ public class TaskManager {
                 System.arraycopy(split, 0, tab[i], 0, split.length);
             }
         } catch (IOException e) {
-            System.out.println("Błąd odczytu pliku");
+            System.out.println("File read failed.");
         }
         return tab;
     }
 
     public static void addTask(String[][] tab) {
-        int index = tab.length;
-        String[] tempTask = new String[tab[0].length];
+
+        String[] tempTask = new String[temp[0].length];
         String[] commands = {"Enter task description:", "Enter due date (YYYY-MM-DD)", "Is your task impotrtant? true/false"};
         Scanner scan = new Scanner(System.in);
         for (int i = 0; i < tempTask.length; i++) {
@@ -64,8 +64,7 @@ public class TaskManager {
         }
 
         tab = Arrays.copyOf(tab, tab.length + 1);
-        tab[tab.length - 1] = new String[tempTask.length];
-        System.arraycopy(tempTask, 0, tab[index], 0, tempTask.length); // wypełnienie nowego wiersza zamiast instr. for (int i = 0; i < tempTask.length; i++) {tab[index][i] = tempTask[i];}
+        tab[tab.length - 1] =tempTask;
 
         System.out.println("You just added new task:");
         for (int i = tab.length - 1; i < tab.length; i++) {
@@ -135,7 +134,7 @@ public class TaskManager {
             Files.write(path1, toSave);
         } catch (
                 IOException ex) {
-            System.out.println("Błąd zapisu do pliku.");
+            System.out.println("File save failed.");
         }
         System.out.print(ConsoleColors.RED);
         System.out.println("Bye Bye");
